@@ -12,11 +12,17 @@ public class Simple_Phasor_Calc{
         int freq = 1;
         Cartesian c = new Cartesian(amp, phase, freq);
 
+        Cartesian_To_Polar(c);
+        
 
     }
 
 
-    public void Cartesian_To_Polar(Cartesian c){
+    public static void Cartesian_To_Polar(Cartesian c){
+        System.out.println("the mag is: " + c.amp + ", the angle is: " + c.phase + ".");
+    }
+
+    public static void Polar_To_Cartesian(Phasor p){
         
     }
 }

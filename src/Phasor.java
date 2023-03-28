@@ -6,4 +6,6 @@ public class Phasor {
         mag = m;
         ang = a;
     }
+
+    
 }
