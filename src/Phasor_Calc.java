@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Phasor_Calc {
     //how to take inputs from the command line
-    public static final int NUM_CHOICES = 10;
+    public static final int NUM_CHOICES = 11;
     public static ArrayList<Phasor> phas = new ArrayList<>();
     public static ArrayList<Cartesian> cart = new ArrayList<>();
 
@@ -54,11 +54,38 @@ public class Phasor_Calc {
                     break;
                 case 9:
                     impedance_parrallel_menu(scan);
+                    break;
+                case 10:
+                    cap_impede(scan);
+                    break;
+                case 11:
+                    induc_impede(scan);
+                    break;
 
             }
 
         }    
         scan.close();
+    }
+
+    public static void cap_impede(Scanner scan){
+        System.out.println("what is the omega value:");
+        double omega = scan.nextDouble();
+        System.out.println("What is the value of the capacitance:");
+        double j_val = scan.nextDouble();
+        cart.add(new Cartesian(0, 1/(omega * j_val)));
+
+        add_phasor_from_input(cart.size()-1);
+    }
+
+    public static void induc_impede(Scanner scan){
+        System.out.println("what is the omega value:");
+        double omega = scan.nextDouble();
+        System.out.println("What is the value of the Inductance:");
+        double j_val = scan.nextDouble();
+        cart.add(new Cartesian(0, (omega * j_val)));
+
+        add_phasor_from_input(cart.size()-1);
     }
 
     public static void impedance_parrallel_menu(Scanner scan){
@@ -115,6 +142,7 @@ public class Phasor_Calc {
         divide_points(phas.get(p1) , phas.get(p2));
     
     }
+   
     public static void divide_points(Phasor p1, Phasor p2){
         double new_mag = p1.mag / p2.mag;
         double new_ang = p1.ang - p2.ang;
@@ -201,12 +229,28 @@ public class Phasor_Calc {
     public static double[] cart_phas(double x, double y){     //assuming radians
         double r = Math.sqrt(Math.pow(x,2) + Math.pow(y,2));
         double theta = 0;
-        if(x >= 0){
+        if(x ==0){
+            if(y > 0){
+                theta = Math.PI / 2;
+            }
+            else if(y < 0){
+                theta = Math.PI * 3 / 2;
+            }
+        }
+        else if(y == 0){
+            if(x > 0){
+                theta = 0;
+            }
+            else if(x < 0){
+                theta = Math.PI;
+            }
+        }
+        else if(x > 0){
             if(y >= 0){
                 theta = Math.atan2(Math.abs(y), Math.abs(x));
             }
             else{
-                theta = Math.PI * 3/2 +  Math.atan2(Math.abs(y), Math.abs(x));//this is wrong
+                theta = Math.PI * 3/2 +  Math.atan2(Math.abs(y), Math.abs(x));
             }
         }
         else{
@@ -238,6 +282,8 @@ public class Phasor_Calc {
         System.out.println("7 - divide two points");
         System.out.println("8 - subtract two points");
         System.out.println("9 - combine impedances in parrallel");
+        System.out.println("10 - get impedance for capacitor");
+        System.out.println("11 - get impedance for an inductor");
 
 
         //current system data
