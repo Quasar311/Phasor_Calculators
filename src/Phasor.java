@@ -1,8 +1,8 @@
 public class Phasor {
-    int mag;
-    int ang;
+    double mag;
+    double ang;
 
-    public Phasor(int m, int a){
+    public Phasor(double m, double a){
         mag = m;
         ang = a;
     }
