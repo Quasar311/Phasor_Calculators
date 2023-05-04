@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Phasor_Calc {
     //how to take inputs from the command line
-    public static final int NUM_CHOICES = 11;
+    public static final int NUM_CHOICES = 12;
     public static ArrayList<Phasor> phas = new ArrayList<>();
     public static ArrayList<Cartesian> cart = new ArrayList<>();
 
@@ -61,6 +61,9 @@ public class Phasor_Calc {
                 case 11:
                     induc_impede(scan);
                     break;
+                case 12:
+                    plot(scan);
+                    break;
 
             }
 
@@ -68,12 +71,20 @@ public class Phasor_Calc {
         scan.close();
     }
 
+    public static void plot(Scanner scan){
+        System.out.println("\n\nWhat coord/phasor would you like to plot?");
+        int coord = scan.nextInt();
+        System.out.print("Here is the point at a variety of frequencies (rad/sec):\n");
+        System.out.println("1 - " + coord);
+
+    }
+
     public static void cap_impede(Scanner scan){
         System.out.println("what is the omega value:");
         double omega = scan.nextDouble();
         System.out.println("What is the value of the capacitance:");
         double j_val = scan.nextDouble();
-        cart.add(new Cartesian(0, 1/(omega * j_val)));
+        cart.add(new Cartesian(0, -1/(omega * j_val)));
 
         add_phasor_from_input(cart.size()-1);
     }
@@ -284,12 +295,20 @@ public class Phasor_Calc {
         System.out.println("9 - combine impedances in parrallel");
         System.out.println("10 - get impedance for capacitor");
         System.out.println("11 - get impedance for an inductor");
+        //System.out.println("12 - ");
+        
 
 
         //current system data
         System.out.println("Here is the information about all of the stored phasors");
         for(int i = 0; i < phas.size(); i++){
-            System.out.println("phasor: " + (i) + ", Magnitude: " + phas.get(i).mag + ", Angle(rad): " + phas.get(i).ang + ", Angle(deg): " +  Math.toDegrees(phas.get(i).ang));
+            if(Math.toDegrees(phas.get(i).ang) > 180){
+                System.out.println("phasor: " + (i) + ", Magnitude: " + phas.get(i).mag + ", Angle(rad): " + phas.get(i).ang + ", Angle(deg): " +  Math.toDegrees(phas.get(i).ang));
+        
+            }
+            else{
+                System.out.println("phasor: " + (i) + ", Magnitude: " + phas.get(i).mag + ", Angle(rad): " + phas.get(i).ang + ", Angle(deg): " +  (Math.toDegrees(phas.get(i).ang)));
+            }
         }
         System.out.println("\nHere is the information about all of the stored caresian coords"); 
         for(int i = 0 ; i < phas.size(); i++){
